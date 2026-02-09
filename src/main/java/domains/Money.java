@@ -1,5 +1,7 @@
 package domains;
 
+import java.util.List;
+
 public class Money {
     private int amount;
     private final int lottoCost = 1000;
@@ -13,5 +15,15 @@ public class Money {
 
     public int availableLottoCount() {
         return amount / lottoCost;
+    }
+
+    public Float calculateRate(List<Rank> rankList) {
+        if (amount == 0) return (float) 0;
+
+        long totalWinningMoney = rankList.stream()
+                .mapToLong(Rank::getWinningMoney)
+                .sum();
+
+        return (float) totalWinningMoney / amount;
     }
 }
