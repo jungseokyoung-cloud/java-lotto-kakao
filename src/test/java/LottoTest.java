@@ -15,7 +15,7 @@ public class LottoTest {
     @Test
     public void 번호가_중복되지_않는지_검증한다() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Lotto(1, 2, 2, 4, 5);
+            new Lotto(1, 2, 2, 4, 5, 6);
         });
     }
 }

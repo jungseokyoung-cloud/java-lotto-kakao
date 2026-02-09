@@ -24,4 +24,8 @@ public class Lotto {
             throw new IllegalArgumentException("로또번호는 중복되면 안 됩니다.");
         }
     }
+
+    public boolean contains(LottoNumber number) {
+        return Arrays.asList(numbers).contains(number);
+    }
 }
