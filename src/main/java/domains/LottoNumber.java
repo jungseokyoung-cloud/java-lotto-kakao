@@ -8,4 +8,10 @@ public class LottoNumber {
         }
         this.number = number;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        LottoNumber that = (LottoNumber) o;
+        return number == that.number;
+    }
 }
