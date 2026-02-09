@@ -1,10 +1,10 @@
 package domains;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Lotto {
     private LottoNumber[] numbers;
-
 
     public Lotto(int... numbers) {
         if (numbers.length != 6) {
@@ -15,6 +15,7 @@ public class Lotto {
             this.numbers = Arrays.stream(numbers)
                     .mapToObj(LottoNumber::new)
                     .distinct()
+                    .sorted()
                     .toArray(LottoNumber[]::new);
         } catch (Exception e) {
             throw e;
@@ -27,5 +28,23 @@ public class Lotto {
 
     public boolean contains(LottoNumber number) {
         return Arrays.asList(numbers).contains(number);
+    }
+
+    public LottoNumber[] getNumbers() {
+        return numbers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        LottoNumber[] thatNumbers = ((Lotto) o).getNumbers();
+        for (int i = 0; i < 6; i++) {
+            if (!thatNumbers[i].equals(this.numbers[i])) return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(numbers);
     }
 }
