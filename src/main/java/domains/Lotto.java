@@ -2,33 +2,45 @@ package domains;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Lotto {
     private LottoNumber[] numbers;
+    private static final int LOTTO_SIZE = 6;
+
+    public Lotto(List<LottoNumber> numbers) {
+        validateSize(numbers);
+        validateDuplicate(numbers);
+
+        this.numbers = numbers.stream()
+                .sorted()
+                .toArray(LottoNumber[]::new);
+    }
 
     public Lotto(int... numbers) {
-        if (numbers.length != 6) {
-            throw new IllegalArgumentException("로또번호는 6개여야 합니다.");
-        }
+        this(toLottoNumberList(numbers));
+    }
 
-        try {
-            this.numbers = Arrays.stream(numbers)
-                    .mapToObj(LottoNumber::new)
-                    .distinct()
-                    .sorted()
-                    .toArray(LottoNumber[]::new);
-        } catch (Exception e) {
-            throw e;
-        }
+    private static List<LottoNumber> toLottoNumberList(int[] numbers) {
+        return Arrays.stream(numbers)
+                .mapToObj(LottoNumber::new)
+                .collect(Collectors.toList());
+    }
 
-        if (this.numbers.length != 6) {
-            throw new IllegalArgumentException("로또번호는 중복되면 안 됩니다.");
+    private void validateSize(List<LottoNumber> numbers) {
+        if (numbers.size() != LOTTO_SIZE) {
+            throw new IllegalArgumentException("로또 번호는 6개여야 합니다.");
         }
     }
 
-    public Lotto(List<LottoNumber> numbers) {
-        this.numbers = numbers.stream()
-                .toArray(LottoNumber[]::new);
+    private void validateDuplicate(List<LottoNumber> numbers) {
+        long distinctCount = numbers.stream()
+                .distinct()
+                .count();
+
+        if (distinctCount != LOTTO_SIZE) {
+            throw new IllegalArgumentException("로또 번호는 중복될 수 없습니다.");
+        }
     }
 
     public boolean contains(LottoNumber number) {
