@@ -3,7 +3,7 @@ package domains;
 import java.util.Objects;
 
 public class LottoNumber implements Comparable<LottoNumber> {
-    private final int number;
+    private final Integer number;
 
     public LottoNumber(int number) {
         if (number < 1 || number > 45) {
@@ -34,8 +34,6 @@ public class LottoNumber implements Comparable<LottoNumber> {
 
     @Override
     public String toString() {
-        return "LottoNumber{" +
-                "number=" + number +
-                '}';
+        return number.toString();
     }
 }

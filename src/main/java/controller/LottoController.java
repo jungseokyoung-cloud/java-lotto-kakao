@@ -2,15 +2,19 @@ package controller;
 
 import domains.Lotto;
 import domains.LottoNumber;
+import domains.LottoTickets;
 import domains.Money;
 import view.InputView;
+import view.OutputView;
 
-import java.util.List;
 import java.util.function.Supplier;
 
 public class LottoController {
     public static void run() {
         Money userMoney = retry(InputView::inputMoney);
+        LottoTickets lottoTickets = new LottoTickets();
+        OutputView.printLottos(lottoTickets.generateLottos(userMoney));
+
         Lotto winningLotto = retry(InputView::inputWinningNumbers);
         LottoNumber lottoNumber = retry(InputView::inputBonusNumber);
     }

@@ -1,6 +1,5 @@
 package domains;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,23 +55,22 @@ public class Lotto {
 
     public Rank match(Lotto winningLotto) {
         int matchCount = 0;
-
-        // 상대방(당첨) 로또의 번호 배열을 가져옴
         LottoNumber[] winningNumbers = winningLotto.getNumbers();
 
-        // 1. 내 번호 하나씩 꺼내기
         for (LottoNumber myNumber : this.numbers) {
-
-            // 2. 당첨 번호들 중에서 내 번호와 같은 게 있는지 찾기
             for (LottoNumber targetNumber : winningNumbers) {
                 if (myNumber.equals(targetNumber)) {
                     matchCount++;
-                    break; // 하나 찾았으면 더 볼 필요 없이 다음 내 번호로 넘어감
+                    break;
                 }
             }
         }
 
-        // 3. Rank Enum에게 개수를 주고 등수를 받아옴 (보너스 볼은 일단 false)
         return Rank.valueOf(matchCount, false);
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(numbers);
     }
 }

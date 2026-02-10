@@ -17,7 +17,6 @@ public class LottoTickets {
         int count = money.availableLottoCount();
 
         lottos = new ArrayList<>();
-        System.out.println(count);
         for(int i = 0; i < count; i++) {
             lottos.add(generateLotto());
         }
@@ -28,10 +27,8 @@ public class LottoTickets {
     private Lotto generateLotto() {
         List<LottoNumber> numbers = new ArrayList<>(ALL_NUMBERS);
 
-        // 2. 섞기 (Shuffle)
         Collections.shuffle(numbers);
 
-        // 3. 앞에서 6개 자르기 & 정렬하기
         List<LottoNumber> result = new ArrayList<>(numbers.subList(0, 6));
         return new Lotto(result);
     }
