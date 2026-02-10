@@ -29,4 +29,10 @@ public class InputView {
 
         return new Lotto(numbers);
     }
+
+    public static LottoNumber inputBonusNumber() {
+        System.out.println("보너스 볼을 입력해 주세요.");
+        int number = Integer.parseInt(scanner.nextLine());
+        return new LottoNumber(number);
+    }
 }
