@@ -2,7 +2,6 @@ package domains;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Lotto {
     private LottoNumber[] numbers;
@@ -28,11 +27,8 @@ public class Lotto {
     }
 
     public Lotto(List<LottoNumber> numbers) {
-        int[] lottoNumbers = numbers.stream()
-                .mapToInt(LottoNumber::getNumber) // LottoNumber 객체에서 int 값 추출 (getter 이름에 맞게 수정하세요)
-                .toArray();
-
-        new Lotto(lottoNumbers);
+        this.numbers = numbers.stream()
+                .toArray(LottoNumber[]::new);
     }
 
     public boolean contains(LottoNumber number) {
