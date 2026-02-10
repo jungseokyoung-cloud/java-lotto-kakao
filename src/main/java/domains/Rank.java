@@ -1,5 +1,7 @@
 package domains;
 
+import java.util.Arrays;
+
 public enum Rank {
     FIRST(6, 2_000_000_000),
     SECOND(5, 30_000_000),
@@ -14,6 +16,22 @@ public enum Rank {
     Rank(int countOfMatch, int winningMoney) {
         this.countOfMatch = countOfMatch;
         this.winningMoney = winningMoney;
+    }
+
+    public static Rank valueOf(int countOfMatch, boolean matchBonus) {
+        if (countOfMatch < 3) {
+            return MISS;
+        }
+
+        return Arrays.stream(values())
+                .filter(rank -> rank.matchCount(countOfMatch) && rank != SECOND)
+                .findFirst()
+                .orElse(MISS);
+    }
+
+    // (보조 메서드) 개수가 일치하는지 확인
+    private boolean matchCount(int countOfMatch) {
+        return this.countOfMatch == countOfMatch;
     }
 
     public int getCountOfMatch() {
