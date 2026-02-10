@@ -18,7 +18,6 @@ public class LottoController {
         LottoNumber bonusNumber = retry(InputView::inputBonusNumber);
 
         List<Rank> ranks = lottoTickets.match(winningLotto, bonusNumber);
-        System.out.println(ranks.size());
         OutputView.printWinning(ranks);
 
         System.out.printf("총 수익률은 %f입니다.", userMoney.calculateRate(ranks));

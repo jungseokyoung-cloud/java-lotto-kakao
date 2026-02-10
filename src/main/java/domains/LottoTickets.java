@@ -11,7 +11,7 @@ public class LottoTickets {
     private List<Lotto> lottos;
     private static final List<LottoNumber> ALL_NUMBERS = IntStream.rangeClosed(1, 45)
             .mapToObj(LottoNumber::new)
-            .collect(Collectors.toList());
+            .toList();
 
     public List<Lotto> generateLottos(Money money) {
         int count = money.availableLottoCount();

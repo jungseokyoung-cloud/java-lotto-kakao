@@ -3,17 +3,17 @@ package domains;
 import java.util.List;
 
 public class Money {
-    private int amount;
-    private final int lottoCost = 1000;
+    private Integer amount;
+    private final Integer lottoCost = 1000;
 
-    public Money(int amount) {
+    public Money(Integer amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("돈은 음수일 수 없습니다.");
         }
         this.amount = amount;
     }
 
-    public int availableLottoCount() {
+    public Integer availableLottoCount() {
         return amount / lottoCost;
     }
 

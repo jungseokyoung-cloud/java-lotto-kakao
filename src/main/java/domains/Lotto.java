@@ -1,29 +1,27 @@
 package domains;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class Lotto {
-    private LottoNumber[] numbers;
-    private static final int LOTTO_SIZE = 6;
+public record Lotto(List<LottoNumber> numbers) {
+    private static final Integer LOTTO_SIZE = 6;
 
     public Lotto(List<LottoNumber> numbers) {
         validateSize(numbers);
         validateDuplicate(numbers);
 
-        this.numbers = numbers.stream()
-                .sorted()
-                .toArray(LottoNumber[]::new);
+        List<LottoNumber> sortedNumbers = new ArrayList<>(numbers);
+        Collections.sort(sortedNumbers);
+        this.numbers = sortedNumbers;
     }
 
-    public Lotto(int... numbers) {
+    public Lotto(Integer... numbers) {
         this(toLottoNumberList(numbers));
     }
 
-    private static List<LottoNumber> toLottoNumberList(int[] numbers) {
+    private static List<LottoNumber> toLottoNumberList(Integer[] numbers) {
         return Arrays.stream(numbers)
-                .mapToObj(LottoNumber::new)
+                .map(LottoNumber::new)
                 .collect(Collectors.toList());
     }
 
@@ -44,43 +42,40 @@ public class Lotto {
     }
 
     public boolean contains(LottoNumber number) {
-        return Arrays.asList(numbers).contains(number);
+        return Objects.equals(numbers, number);
     }
 
-    public LottoNumber[] getNumbers() {
-        return numbers;
+    @Override
+    public List<LottoNumber> numbers() {
+        return Collections.unmodifiableList(numbers);
     }
 
     @Override
     public boolean equals(Object o) {
-        LottoNumber[] thatNumbers = ((Lotto) o).getNumbers();
+        List<LottoNumber> thatNumbers = ((Lotto) o).numbers();
         for (int i = 0; i < 6; i++) {
-            if (!thatNumbers[i].equals(this.numbers[i])) return false;
+            if (!thatNumbers.get(i).equals(this.numbers.get(i))) return false;
         }
         return true;
     }
 
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(numbers);
-    }
-
     public Rank match(Lotto winningLotto, LottoNumber bonusNumber) {
-        int matchCount = countMatches(winningLotto);
+        Integer matchCount = countMatches(winningLotto);
         boolean matchBonus = contains(bonusNumber);
 
         return Rank.valueOf(matchCount, matchBonus);
     }
 
-    // 배열을 스트림으로 변환하여 매칭 개수 계산
-    public int countMatches(Lotto winningLotto) {
-        return (int) Arrays.stream(numbers)
+    // 배열 스트림(Arrays.stream) -> 리스트 스트림(numbers.stream) 변경
+    public Integer countMatches(Lotto winningLotto) {
+        return (int) numbers.stream()
                 .filter(winningLotto::contains)
                 .count();
     }
 
+    // List의 toString 사용
     @Override
     public String toString() {
-        return Arrays.toString(numbers);
+        return numbers.toString();
     }
 }
