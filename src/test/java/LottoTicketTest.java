@@ -1,7 +1,4 @@
-import domains.Lotto;
-import domains.LottoTickets;
-import domains.Money;
-import domains.Rank;
+import domains.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,6 +31,6 @@ public class LottoTicketTest {
         Lotto winningLotto = new Lotto(1, 2, 3, 4, 5, 6);
         Lotto lotto = new Lotto(1, 2, 3, 9, 10, 11);
 
-        assertEquals(Rank.FIFTH, lotto.match(winningLotto));
+        assertEquals(Rank.FIFTH, lotto.match(winningLotto, new LottoNumber(44)));
     }
 }

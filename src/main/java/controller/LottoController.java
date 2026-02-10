@@ -1,22 +1,25 @@
 package controller;
 
-import domains.Lotto;
-import domains.LottoNumber;
-import domains.LottoTickets;
-import domains.Money;
+import domains.*;
 import view.InputView;
 import view.OutputView;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class LottoController {
     public static void run() {
         Money userMoney = retry(InputView::inputMoney);
         LottoTickets lottoTickets = new LottoTickets();
-        OutputView.printLottos(lottoTickets.generateLottos(userMoney));
+        List<Lotto> lottos = lottoTickets.generateLottos(userMoney);
 
+        OutputView.printLottos(lottos);
         Lotto winningLotto = retry(InputView::inputWinningNumbers);
-        LottoNumber lottoNumber = retry(InputView::inputBonusNumber);
+        LottoNumber bonusNumber = retry(InputView::inputBonusNumber);
+
+        List<Rank> ranks = lottoTickets.match(winningLotto, bonusNumber);
+        System.out.println(ranks.size());
+        OutputView.printWinning(ranks);
     }
 
     private static <T> T retry(Supplier<T> supplier) {

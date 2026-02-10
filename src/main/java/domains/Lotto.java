@@ -53,20 +53,18 @@ public class Lotto {
         return Arrays.hashCode(numbers);
     }
 
-    public Rank match(Lotto winningLotto) {
-        int matchCount = 0;
-        LottoNumber[] winningNumbers = winningLotto.getNumbers();
+    public Rank match(Lotto winningLotto, LottoNumber bonusNumber) {
+        int matchCount = countMatches(winningLotto);
+        boolean matchBonus = contains(bonusNumber);
 
-        for (LottoNumber myNumber : this.numbers) {
-            for (LottoNumber targetNumber : winningNumbers) {
-                if (myNumber.equals(targetNumber)) {
-                    matchCount++;
-                    break;
-                }
-            }
-        }
+        return Rank.valueOf(matchCount, matchBonus);
+    }
 
-        return Rank.valueOf(matchCount, false);
+    // 배열을 스트림으로 변환하여 매칭 개수 계산
+    public int countMatches(Lotto winningLotto) {
+        return (int) Arrays.stream(numbers)
+                .filter(winningLotto::contains)
+                .count();
     }
 
     @Override

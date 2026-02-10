@@ -23,6 +23,10 @@ public enum Rank {
             return MISS;
         }
 
+        if (countOfMatch == SECOND.countOfMatch && matchBonus) {
+            return SECOND;
+        }
+
         return Arrays.stream(values())
                 .filter(rank -> rank.matchCount(countOfMatch) && rank != SECOND)
                 .findFirst()

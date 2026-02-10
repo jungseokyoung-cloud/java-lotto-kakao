@@ -21,7 +21,7 @@ public class InputView {
         return new Money(value);
     }
 
-    public static Lotto inputWinningNumbers() {
+    public static Lotto inputWinningNumbers() throws IllegalArgumentException {
         System.out.println("\n지난 주 당첨 번호를 입력해 주세요.");
         String input = scanner.nextLine();
         List<LottoNumber> numbers = Arrays.stream(input.split(","))
@@ -33,7 +33,7 @@ public class InputView {
         return new Lotto(numbers);
     }
 
-    public static LottoNumber inputBonusNumber() {
+    public static LottoNumber inputBonusNumber() throws IllegalArgumentException {
         System.out.println("보너스 볼을 입력해 주세요.");
         int number = Integer.parseInt(scanner.nextLine());
         return new LottoNumber(number);

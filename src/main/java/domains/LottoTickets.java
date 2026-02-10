@@ -32,4 +32,10 @@ public class LottoTickets {
         List<LottoNumber> result = new ArrayList<>(numbers.subList(0, 6));
         return new Lotto(result);
     }
+
+    public List<Rank> match(Lotto winningLotto, LottoNumber bonusNumber) {
+        return lottos.stream()
+                .map(lotto -> lotto.match(winningLotto, bonusNumber))
+                .collect(Collectors.toList());
+    }
 }
