@@ -3,12 +3,11 @@ package domains;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class LottoTickets {
-    private List<Lotto> lottos;
+    private List<Lotto> lottos = new ArrayList<>();
     private static final List<LottoNumber> ALL_NUMBERS = IntStream.rangeClosed(1, 45)
             .mapToObj(LottoNumber::new)
             .toList();
@@ -16,7 +15,7 @@ public class LottoTickets {
     public List<Lotto> generateLottos(Money money) {
         int count = money.availableLottoCount();
 
-        lottos = new ArrayList<>();
+        lottos.clear();
         for(int i = 0; i < count; i++) {
             lottos.add(generateLotto());
         }
