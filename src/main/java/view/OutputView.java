@@ -48,4 +48,12 @@ public class OutputView {
         System.out.printf("%d개 일치 (%d원)- %d개%n",
                 rank.getCountOfMatch(), rank.getWinningMoney(), count);
     }
+
+    public static void printRateOfReturn(double rate) {
+        System.out.printf("총 수익률은 %.1f%%입니다.%n", rate);
+    }
+
+    public static void printError(IllegalArgumentException e) {
+        System.out.printf("[ERROR] " + e.getMessage());
+    }
 }
