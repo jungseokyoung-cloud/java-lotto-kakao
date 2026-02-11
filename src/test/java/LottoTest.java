@@ -6,21 +6,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LottoTest {
     @Test
-    public void 번호가_6개가_아닌경우_에러를_반환한다() {
+    public void 로또_번호의_개수가_6개가_아니면_예외가_발생한다() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Lotto(1, 2, 3, 4, 5);
         });
     }
 
     @Test
-    public void 번호가_중복되지_않는지_검증한다() {
+    public void 로또_번호에_중복된_숫자가_있으면_예외가_발생한다() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Lotto(1, 2, 2, 4, 5, 6);
         });
     }
 
     @Test
-    public void 번호가_포함되어_있는지_확인할_수_있다() {
+    public void 특정_번호가_로또에_포함되어_있는지_확인한다() {
         Lotto lotto = new Lotto(1, 2, 3, 4, 5, 6);
         LottoNumber number = new LottoNumber(2);
 
@@ -28,7 +28,7 @@ public class LottoTest {
     }
 
     @Test
-    public void 로또는_오름차순이어야_한다() {
+    public void 로또를_생성하면_번호가_오름차순으로_정렬된다() {
         Lotto lotto1 = new Lotto(6, 5, 4, 3, 2, 1);
         Lotto lotto2 = new Lotto(1, 2, 3, 4, 5, 6);
 

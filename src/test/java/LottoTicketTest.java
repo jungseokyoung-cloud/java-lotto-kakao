@@ -18,7 +18,7 @@ public class LottoTicketTest {
 
 
     @Test
-    public void 로또_번호들이_중복되지_않는지_검증한다() {
+    public void 발행된_여러_장의_로또_티켓은_서로_중복되지_않는다() {
         List<Lotto> lottos = lottoTickets.generateLottos(money);
         for (Lotto lotto : lottos) {
             System.out.println(lotto);
@@ -27,7 +27,7 @@ public class LottoTicketTest {
     }
 
     @Test
-    public void 로또_번호가_1개_동일했을_때_검증한다() {
+    public void 당첨_번호와_3개가_일치하면_5등으로_판단한다() {
         Lotto winningLotto = new Lotto(1, 2, 3, 4, 5, 6);
         Lotto lotto = new Lotto(1, 2, 3, 9, 10, 11);
 
