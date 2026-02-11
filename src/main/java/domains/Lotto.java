@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public record Lotto(List<LottoNumber> numbers) {
-    private static final Integer LOTTO_SIZE = 6;
+    private static final int LOTTO_SIZE = 6;
 
     // MARK: - Initializers
     public Lotto(List<LottoNumber> numbers) {
@@ -16,14 +16,14 @@ public record Lotto(List<LottoNumber> numbers) {
         this.numbers = Collections.unmodifiableList(sortedNumbers);
     }
 
-    public Lotto(Integer... numbers) {
+    public Lotto(int... numbers) {
         this(toLottoNumberList(numbers));
     }
 
     // MARK: - 메서드
-    private static List<LottoNumber> toLottoNumberList(Integer[] numbers) {
+    private static List<LottoNumber> toLottoNumberList(int[] numbers) {
         return Arrays.stream(numbers)
-                .map(LottoNumber::new)
+                .mapToObj(LottoNumber::new)
                 .collect(Collectors.toList());
     }
 
