@@ -6,32 +6,34 @@ import java.util.stream.Collectors;
 public record Lotto(List<LottoNumber> numbers) {
     private static final Integer LOTTO_SIZE = 6;
 
+    // MARK: - Initializers
     public Lotto(List<LottoNumber> numbers) {
         validateSize(numbers);
         validateDuplicate(numbers);
 
         List<LottoNumber> sortedNumbers = new ArrayList<>(numbers);
         Collections.sort(sortedNumbers);
-        this.numbers = sortedNumbers;
+        this.numbers = Collections.unmodifiableList(sortedNumbers);
     }
 
     public Lotto(Integer... numbers) {
         this(toLottoNumberList(numbers));
     }
 
+    // MARK: - 메서드
     private static List<LottoNumber> toLottoNumberList(Integer[] numbers) {
         return Arrays.stream(numbers)
                 .map(LottoNumber::new)
                 .collect(Collectors.toList());
     }
 
-    private void validateSize(List<LottoNumber> numbers) {
+    private static void validateSize(List<LottoNumber> numbers) {
         if (numbers.size() != LOTTO_SIZE) {
             throw new IllegalArgumentException("로또 번호는 6개여야 합니다.");
         }
     }
 
-    private void validateDuplicate(List<LottoNumber> numbers) {
+    private static void validateDuplicate(List<LottoNumber> numbers) {
         long distinctCount = numbers.stream()
                 .distinct()
                 .count();
@@ -43,20 +45,6 @@ public record Lotto(List<LottoNumber> numbers) {
 
     public boolean contains(LottoNumber number) {
         return numbers.contains(number);
-    }
-
-    @Override
-    public List<LottoNumber> numbers() {
-        return Collections.unmodifiableList(numbers);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        List<LottoNumber> thatNumbers = ((Lotto) o).numbers();
-        for (int i = 0; i < 6; i++) {
-            if (!thatNumbers.get(i).equals(this.numbers.get(i))) return false;
-        }
-        return true;
     }
 
     public Rank match(Lotto winningLotto, LottoNumber bonusNumber) {
