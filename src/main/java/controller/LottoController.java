@@ -6,16 +6,25 @@ import view.OutputView;
 
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class LottoController {
     public static void run() {
-        Money userMoney = retry(InputView::inputMoney);
+        Money userMoney = retry(() -> new Money(InputView.inputMoney()));
+
         LottoTickets lottoTickets = new LottoTickets();
         List<Lotto> lottos = lottoTickets.generateLottos(userMoney);
 
         OutputView.printLottos(lottos);
-        Lotto winningLotto = retry(InputView::inputWinningNumbers);
-        LottoNumber bonusNumber = retry(InputView::inputBonusNumber);
+
+        Lotto winningLotto = retry(() -> {
+            List<Integer> rawNumbers = InputView.inputWinningNumbers();
+            List<LottoNumber> lottoNumbers = rawNumbers.stream()
+                    .map(LottoNumber::new)
+                    .collect(Collectors.toList());
+            return new Lotto(lottoNumbers);
+        });
+        LottoNumber bonusNumber = retry(() -> new LottoNumber(InputView.inputBonusNumber()));
 
         List<Rank> ranks = lottoTickets.match(winningLotto, bonusNumber);
         OutputView.printWinning(ranks);
