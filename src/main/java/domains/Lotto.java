@@ -42,7 +42,7 @@ public record Lotto(List<LottoNumber> numbers) {
     }
 
     public boolean contains(LottoNumber number) {
-        return Objects.equals(numbers, number);
+        return numbers.contains(number);
     }
 
     @Override
