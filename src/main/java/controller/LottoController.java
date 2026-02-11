@@ -17,16 +17,22 @@ public class LottoController {
 
         OutputView.printLottos(lottos);
 
-        Lotto winningLotto = retry(() -> {
+
+        Lotto winningLottoNumbers = retry(() -> {
             List<Integer> rawNumbers = InputView.inputWinningNumbers();
             List<LottoNumber> lottoNumbers = rawNumbers.stream()
                     .map(LottoNumber::new)
                     .collect(Collectors.toList());
             return new Lotto(lottoNumbers);
         });
-        LottoNumber bonusNumber = retry(() -> new LottoNumber(InputView.inputBonusNumber()));
 
-        List<Rank> ranks = lottoTickets.match(winningLotto, bonusNumber);
+        WinningLotto winningLotto = retry(() -> {
+            LottoNumber bonusNumber = new LottoNumber(InputView.inputBonusNumber());
+            return new WinningLotto(winningLottoNumbers, bonusNumber);
+        });
+
+        List<Rank> ranks = lottoTickets.match(winningLotto);
+
         OutputView.printWinning(ranks);
         OutputView.printRateOfReturn(userMoney.calculateRate(ranks));
     }

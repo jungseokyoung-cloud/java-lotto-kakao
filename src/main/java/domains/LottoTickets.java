@@ -32,9 +32,10 @@ public class LottoTickets {
         return new Lotto(result);
     }
 
-    public List<Rank> match(Lotto winningLotto, LottoNumber bonusNumber) {
+    public List<Rank> match(WinningLotto winningLotto) {
         return lottos.stream()
-                .map(lotto -> lotto.match(winningLotto, bonusNumber))
+                // 사용자가 구매한 각각의 로또(lotto)를 WinningLotto와 비교합니다.
+                .map(winningLotto::match)
                 .collect(Collectors.toList());
     }
 }
