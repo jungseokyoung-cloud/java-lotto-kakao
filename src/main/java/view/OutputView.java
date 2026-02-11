@@ -54,6 +54,6 @@ public class OutputView {
     }
 
     public static void printError(IllegalArgumentException e) {
-        System.out.printf("[ERROR] " + e.getMessage());
+        System.out.printf("[ERROR] " + e.getMessage() + "%n");
     }
 }
