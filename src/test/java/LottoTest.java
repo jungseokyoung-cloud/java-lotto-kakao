@@ -1,5 +1,6 @@
 import domains.Lotto;
 import domains.LottoNumber;
+import domains.Rank;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,5 +34,13 @@ public class LottoTest {
         Lotto lotto2 = new Lotto(1, 2, 3, 4, 5, 6);
 
         assertEquals(lotto1, lotto2);
+    }
+
+    @Test
+    public void 당첨_번호와_3개가_일치하면_5등으로_판단한다() {
+        Lotto winningLotto = new Lotto(1, 2, 3, 4, 5, 6);
+        Lotto lotto = new Lotto(1, 2, 3, 9, 10, 11);
+
+        assertEquals(Rank.FIFTH, lotto.match(winningLotto, new LottoNumber(44)));
     }
 }

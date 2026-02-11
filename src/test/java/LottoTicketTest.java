@@ -25,12 +25,4 @@ public class LottoTicketTest {
         }
         assertEquals(lottos.size(), new HashSet<>(lottos).size());
     }
-
-    @Test
-    public void 당첨_번호와_3개가_일치하면_5등으로_판단한다() {
-        Lotto winningLotto = new Lotto(1, 2, 3, 4, 5, 6);
-        Lotto lotto = new Lotto(1, 2, 3, 9, 10, 11);
-
-        assertEquals(Rank.FIFTH, lotto.match(winningLotto, new LottoNumber(44)));
-    }
 }
