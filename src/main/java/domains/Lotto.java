@@ -1,0 +1,69 @@
+package domains;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public record Lotto(List<LottoNumber> numbers) {
+    private static final int LOTTO_SIZE = 6;
+
+    // MARK: - Initializers
+    public Lotto(List<LottoNumber> numbers) {
+        validateSize(numbers);
+        validateDuplicate(numbers);
+
+        List<LottoNumber> sortedNumbers = new ArrayList<>(numbers);
+        Collections.sort(sortedNumbers);
+        this.numbers = Collections.unmodifiableList(sortedNumbers);
+    }
+
+    public Lotto(int... numbers) {
+        this(toLottoNumberList(numbers));
+    }
+
+    // MARK: - 메서드
+    private static List<LottoNumber> toLottoNumberList(int[] numbers) {
+        return Arrays.stream(numbers)
+                .mapToObj(LottoNumber::new)
+                .collect(Collectors.toList());
+    }
+
+    private static void validateSize(List<LottoNumber> numbers) {
+        if (numbers.size() != LOTTO_SIZE) {
+            throw new IllegalArgumentException("로또 번호는 6개여야 합니다.");
+        }
+    }
+
+    private static void validateDuplicate(List<LottoNumber> numbers) {
+        long distinctCount = numbers.stream()
+                .distinct()
+                .count();
+
+        if (distinctCount != LOTTO_SIZE) {
+            throw new IllegalArgumentException("로또 번호는 중복될 수 없습니다.");
+        }
+    }
+
+    public boolean contains(LottoNumber number) {
+        return numbers.contains(number);
+    }
+
+    public Rank match(Lotto winningLotto, LottoNumber bonusNumber) {
+        Integer matchCount = countMatches(winningLotto);
+        boolean matchBonus = contains(bonusNumber);
+
+        return Rank.valueOf(matchCount, matchBonus);
+    }
+
+    // 배열 스트림(Arrays.stream) -> 리스트 스트림(numbers.stream) 변경
+    public Integer countMatches(Lotto winningLotto) {
+        return (int) numbers.stream()
+                .filter(winningLotto::contains)
+                .count();
+    }
+
+    // List의 toString 사용
+    @Override
+    public String toString() {
+        return numbers.toString();
+    }
+}
