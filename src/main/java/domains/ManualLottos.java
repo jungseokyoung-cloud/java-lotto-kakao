@@ -2,12 +2,22 @@ package domains;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ManualLottos {
     private final List<Lotto> lottos;
 
     public ManualLottos() {
         this.lottos = new ArrayList<>();
+    }
+
+    public void add(List<Integer> numbers) {
+        List<LottoNumber> lottoNumbers = numbers.stream()
+                .map(LottoNumber::new)
+                .collect(Collectors.toList());
+
+        Lotto lotto = new Lotto(lottoNumbers);
+        this.lottos.add(lotto);
     }
 
     public void add(Lotto lotto) {
