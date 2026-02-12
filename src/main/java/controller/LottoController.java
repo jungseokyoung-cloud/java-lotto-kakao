@@ -11,29 +11,23 @@ import java.util.stream.Collectors;
 public class LottoController {
     public static void run() {
         Money userMoney = retry(() -> new Money(InputView.inputMoney()));
+        ManualLottos manualLottos = new ManualLottos();
 
-        LottoTickets lottoTickets = new LottoTickets();
-        List<Lotto> lottos = lottoTickets.generateLottos(userMoney);
+        int manualCount = retry(() -> {
+           int count = InputView.inputManualCount();
+           userMoney.validatePurchasable(count);
 
-        OutputView.printLottos(lottos);
-
-        Lotto winningLottoNumbers = retry(() -> {
-            List<Integer> rawNumbers = InputView.inputWinningNumbers();
-            List<LottoNumber> lottoNumbers = rawNumbers.stream()
-                    .map(LottoNumber::new)
-                    .collect(Collectors.toList());
-            return new Lotto(lottoNumbers);
+           return count;
         });
 
-        WinningLotto winningLotto = retry(() -> {
-            LottoNumber bonusNumber = new LottoNumber(InputView.inputBonusNumber());
-            return new WinningLotto(winningLottoNumbers, bonusNumber);
-        });
+        for(int i = 0; i < manualCount; i++) {
+            retry(() -> {
+                List<Integer> lotto = InputView.inputManualNumbers();
 
-        List<Rank> ranks = lottoTickets.match(winningLotto);
-
-        OutputView.printWinning(ranks);
-        OutputView.printRateOfReturn(userMoney.calculateRate(ranks));
+                manualLottos.add(lotto);
+                return null;
+            });
+        }
     }
 
     private static <T> T retry(Supplier<T> supplier) {
