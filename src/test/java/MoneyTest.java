@@ -30,4 +30,13 @@ public class MoneyTest {
         assertThatThrownBy(() -> new Money(0))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    public void 지불_가능한_금액보다_많은_로또를_구매하려_하면_예외가_발생한다() {
+        Money money = new Money(1000);
+        int manualCount = 2;           // 2장(2000원) 구매 시도
+
+        assertThatThrownBy(() -> money.validatePurchasable(manualCount))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }
