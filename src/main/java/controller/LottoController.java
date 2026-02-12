@@ -17,7 +17,6 @@ public class LottoController {
 
         OutputView.printLottos(lottos);
 
-
         Lotto winningLottoNumbers = retry(() -> {
             List<Integer> rawNumbers = InputView.inputWinningNumbers();
             List<LottoNumber> lottoNumbers = rawNumbers.stream()
