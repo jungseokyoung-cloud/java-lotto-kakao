@@ -3,7 +3,7 @@ package domains;
 import java.util.List;
 
 public class Money {
-    private int amount;
+    private final int amount;
     private final static int LOTTO_PRICE = 1000;
 
     public Money(int amount) {
