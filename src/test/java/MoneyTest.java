@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static domains.Rank.FIRST;
-import static domains.Rank.SECOND;
+import static domains.Rank.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MoneyTest {
@@ -26,10 +26,8 @@ public class MoneyTest {
     }
 
     @Test
-    public void 구입_금액이_0원일_때_수익률은_0을_반환한다() {
-        int value = 0;
-        Money money = new Money(value);
-        List<Rank> rankList = List.of(FIRST, SECOND);
-        assertEquals(0, money.calculateRate(rankList));
+    public void 구입_금액이_1000원_이하일_때_예외를_반환한다() {
+        assertThatThrownBy(() -> new Money(0))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
