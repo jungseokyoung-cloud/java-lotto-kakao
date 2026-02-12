@@ -17,7 +17,7 @@ public class ManualLottos {
                 .collect(Collectors.toList());
 
         Lotto lotto = new Lotto(lottoNumbers);
-        this.lottos.add(lotto);
+        this.add(lotto);
     }
 
     public void add(Lotto lotto) {

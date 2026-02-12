@@ -23,6 +23,10 @@ public class Money {
     }
 
     public void validatePurchasable(int count) {
+        if(count < 0) {
+            throw new IllegalArgumentException("구매 횟수는 양수여야 합니다.");
+        }
+
         if (amount < count * LOTTO_PRICE) {
             throw new IllegalArgumentException("지불할 금액보다 구매 횟수가 더 많습니다.");
         }
